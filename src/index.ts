@@ -1,13 +1,10 @@
-import * as redis from 'redis';
+import { RedisConfig } from './RedisConfig';
 
 async function start() {
 
-
-    const client: any = redis.createClient({
-        url: 'redis://localhost:6379'
-    })
-
-    await client.connect()
+    const redisConfig = new RedisConfig();
+    await redisConfig.connect();
+    await redisConfig.disconnect();
 
 }
 
