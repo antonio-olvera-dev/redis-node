@@ -1,4 +1,14 @@
-import { HelloWorld } from './HelloWorld';
+import * as redis from 'redis';
 
-const helloWorld = new HelloWorld();
-helloWorld.greetings();
+async function start() {
+
+
+    const client: any = redis.createClient({
+        url: 'redis://localhost:6379'
+    })
+
+    await client.connect()
+
+}
+
+start();
