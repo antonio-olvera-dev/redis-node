@@ -1,5 +1,6 @@
 import { RedisClientType } from "redis";
 import { RedisConfig } from "./RedisConfig";
+import { User } from "./User/User";
 
 export class DataManager {
 
@@ -18,6 +19,10 @@ export class DataManager {
         if (this.redisConfig && this.client) {
             await this.redisConfig.disconnect();
         }
+    }
+
+    public static getUser(): User {
+        return new User(this.client!!);
     }
 
 }
