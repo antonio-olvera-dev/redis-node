@@ -15,6 +15,7 @@ export class RedisConfig {
     }
 
     public getClient(): RedisClientType<Record<string, never>, Record<string, never>, Record<string, never>> {
+        console.log("creating redis client");
         return redis.createClient({
             url: `redis://${this.host}:${this.port}`
         });

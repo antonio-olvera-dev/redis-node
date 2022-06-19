@@ -1,10 +1,10 @@
-import { RedisConfig } from './RedisConfig';
+import { DataManager } from './DataManager';
 
 async function start() {
 
-    const redisConfig = new RedisConfig();
-    await redisConfig.connect();
-    await redisConfig.disconnect();
+    const dataManager = DataManager;
+    await dataManager.connect();
+    await dataManager.disconnect();
 
 }
 
