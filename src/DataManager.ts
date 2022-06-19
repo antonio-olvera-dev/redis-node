@@ -3,8 +3,8 @@ import { RedisConfig } from "./RedisConfig";
 
 export class DataManager {
 
-    public static redisConfig?: RedisConfig;
-    public static client?: RedisClientType<Record<string, never>, Record<string, never>, Record<string, never>>;
+    private static redisConfig?: RedisConfig;
+    private static client?: RedisClientType<Record<string, never>, Record<string, never>, Record<string, never>>;
 
     public static async connect() {
         if (!this.client || !this.redisConfig) {
