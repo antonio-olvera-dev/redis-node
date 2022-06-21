@@ -2,6 +2,7 @@ import { RedisClientType } from "redis";
 import { UserI } from "./UserI";
 import { v4 as uuidv4 } from 'uuid';
 import { UserRepository } from "./UserRepository";
+import { logger } from "../shared/decorators";
 
 export class UserCase {
 
@@ -11,11 +12,11 @@ export class UserCase {
         this.repository = new UserRepository(client);
     }
 
+    @logger()
     public async getAll(): Promise<UserI[] | null> {
         try {
 
-            console.log("--get---");
-            const data: string | null = await this.repository.getAll();
+            const data: string[] | null = await this.repository.getAll();
             const users: UserI[] = [];
 
             if (data != null) {
@@ -33,9 +34,9 @@ export class UserCase {
         }
     }
 
+    @logger()
     public async set(user: UserI) {
         try {
-            console.log("--set---");
             this.addDates(user);
             this.addId(user);
             const data: any = await this.repository.set(user);
