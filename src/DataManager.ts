@@ -1,6 +1,6 @@
 import { RedisClientType } from "redis";
 import { RedisConfig } from "./RedisConfig";
-import { User } from "./User/User";
+import { UserCase } from "./User/UserCase";
 
 export class DataManager {
 
@@ -21,8 +21,8 @@ export class DataManager {
         }
     }
 
-    public static getUser(): User {
-        return new User(this.client!!);
+    public static getUser(): UserCase {
+        return new UserCase(this.client!!);
     }
 
 }

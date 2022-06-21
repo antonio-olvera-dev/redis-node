@@ -1,20 +1,21 @@
 import { RedisClientType } from "redis";
 import { UserI } from "./UserI";
 import { v4 as uuidv4 } from 'uuid';
+import { UserRepository } from "./UserRepository";
 
-export class User {
+export class UserCase {
 
-    private client: RedisClientType<Record<string, never>, Record<string, never>, Record<string, never>>;
+    private repository: UserRepository;
 
     constructor(client: RedisClientType<Record<string, never>, Record<string, never>, Record<string, never>>) {
-        this.client = client;
+        this.repository = new UserRepository(client);
     }
 
     public async getAll(): Promise<UserI[] | null> {
         try {
 
             console.log("--get---");
-            const data: string | null = await this.client.lRange(`users`, 0, -1);
+            const data: string | null = await this.repository.getAll();
             const users: UserI[] = [];
 
             if (data != null) {
@@ -37,7 +38,7 @@ export class User {
             console.log("--set---");
             this.addDates(user);
             this.addId(user);
-            const data: any = await this.client.rPush(`users`, JSON.stringify(user));
+            const data: any = await this.repository.set(user);
             console.log(data);
         } catch (error) {
             console.log(error);
@@ -50,7 +51,7 @@ export class User {
         object.createdAt = date;
         object.updatedAt = date;
     }
-    
+
     private addId(object: any) {
         object.id = uuidv4();
     }
