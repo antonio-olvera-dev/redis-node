@@ -19,6 +19,13 @@ async function start() {
     newUser.name = "Pepe";
     await DataManager.getUser().updateById(newUser);
 
+    const length = users?.length ? users.length : 0;
+    if (length > 1) {
+        const newUser2 = { ...users![1] };
+        newUser2.name = "Juan";
+        await DataManager.getUser().updateByIndex(newUser2, 1);
+    }
+
     await dataManager.disconnect();
 }
 

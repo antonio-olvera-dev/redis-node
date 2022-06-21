@@ -55,4 +55,14 @@ export class UserCase {
             return;
         }
     }
+
+    @update()
+    @logger(__filename)
+    public async updateByIndex(userToUpdate: UserI, index: number) {
+
+        const data: any = await this.repository.lSet(userToUpdate, index);
+        console.log(data);
+        return;
+    }
+
 }
