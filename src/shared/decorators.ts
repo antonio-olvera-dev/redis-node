@@ -57,3 +57,22 @@ export function set() {
         object.id = uuidv4();
     }
 }
+
+
+export function update() {
+
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+
+        const method = descriptor.value!;
+        descriptor.value = async function () {
+
+            addDates(arguments[0]);
+            return await method.apply(this, arguments);
+        };
+    };
+
+    function addDates(object: any) {
+        const date = new Date();
+        object.updatedAt = date;
+    }
+}

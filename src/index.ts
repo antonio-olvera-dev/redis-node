@@ -14,7 +14,10 @@ async function start() {
 
     await DataManager.getUser().set(user);
     const users = await DataManager.getUser().getAll();
-    // console.log(users);
+
+    const newUser = { ...users![0] };
+    newUser.name = "Pepe";
+    await DataManager.getUser().updateById(newUser);
 
     await dataManager.disconnect();
 }

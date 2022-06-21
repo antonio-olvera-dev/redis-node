@@ -1,7 +1,7 @@
 import { RedisClientType } from "redis";
 import { UserI } from "./UserI";
 import { UserRepository } from "./UserRepository";
-import { logger, set } from "../shared/decorators";
+import { logger, set, update } from "../shared/decorators";
 
 export class UserCase {
 
@@ -33,4 +33,26 @@ export class UserCase {
         console.log(data);
     }
 
+    @update()
+    @logger(__filename)
+    public async updateById(userToUpdate: UserI) {
+
+        const allUser: UserI[] | null = await this.getAll();
+
+        if (allUser != null) {
+
+            let index: number = 0;
+
+            for (let i = 0; i < allUser.length; i++) {
+                const user = allUser[i];
+                if (user.id === userToUpdate.id) {
+                    index = i;
+                    break;
+                }
+            }
+            const data: any = await this.repository.lSet(userToUpdate, index);
+            console.log(data);
+            return;
+        }
+    }
 }

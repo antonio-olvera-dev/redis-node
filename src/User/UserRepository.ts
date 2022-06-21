@@ -23,4 +23,11 @@ export class UserRepository {
         const data: number = await this.client.rPush(`users`, JSON.stringify(user));
         return data;
     }
+
+    @logger(__filename)
+    @repositoryError()
+    public async lSet(user: UserI, index: number): Promise<string | null> {
+        const data: string = await this.client.lSet(`users`, index, JSON.stringify(user));
+        return data;
+    }
 }
