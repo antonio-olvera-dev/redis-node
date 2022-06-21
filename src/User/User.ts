@@ -1,5 +1,6 @@
 import { RedisClientType } from "redis";
 import { UserI } from "./UserI";
+import { v4 as uuidv4 } from 'uuid';
 
 export class User {
 
@@ -35,6 +36,7 @@ export class User {
         try {
             console.log("--set---");
             this.addDates(user);
+            this.addId(user);
             const data: any = await this.client.rPush(`users`, JSON.stringify(user));
             console.log(data);
         } catch (error) {
@@ -47,6 +49,10 @@ export class User {
         const date = new Date();
         object.createdAt = date;
         object.updatedAt = date;
+    }
+    
+    private addId(object: any) {
+        object.id = uuidv4();
     }
 
 }

@@ -7,7 +7,6 @@ async function start() {
     await dataManager.connect();
 
     const user: UserI = {
-        id: "1",
         name: "Antonio",
         email: "antonio@gmail.com",
         password: "1234"
