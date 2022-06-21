@@ -1,13 +1,13 @@
 
-import * as path from 'path';
+import { basename } from 'path';
 
-export function logger() {
+export function logger(pathFile: string) {
 
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
 
         const method = descriptor.value!;
         descriptor.value = function () {
-            var scriptName = path.basename(__filename);
+            const scriptName = basename(pathFile);
             console.log(`*** Call --> ${scriptName} --> ${propertyKey} ***`);
             return method.apply(this, arguments);
         };
@@ -23,7 +23,7 @@ export function repositoryError() {
         descriptor.value = async function () {
 
             try {
-               return await method.apply(this, arguments);
+                return await method.apply(this, arguments);
             } catch (error) {
                 console.log(error);
                 return null;

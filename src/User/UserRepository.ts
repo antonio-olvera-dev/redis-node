@@ -10,14 +10,14 @@ export class UserRepository {
         this.client = client;
     }
 
-    @logger()
+    @logger(__filename)
     @repositoryError()
     public async getAll(): Promise<string[] | null> {
         const data: string[] | null = await this.client.lRange(`users`, 0, -1);
         return data;
     }
 
-    @logger()
+    @logger(__filename)
     @repositoryError()
     public async set(user: UserI): Promise<number | null> {
         const data: number = await this.client.rPush(`users`, JSON.stringify(user));

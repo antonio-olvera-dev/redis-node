@@ -12,7 +12,7 @@ export class UserCase {
         this.repository = new UserRepository(client);
     }
 
-    @logger()
+    @logger(__filename)
     public async getAll(): Promise<UserI[] | null> {
 
         const data: string[] | null = await this.repository.getAll();
@@ -28,7 +28,7 @@ export class UserCase {
         return data;
     }
 
-    @logger()
+    @logger(__filename)
     public async set(user: UserI) {
 
         this.addDates(user);
