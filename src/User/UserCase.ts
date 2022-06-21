@@ -15,13 +15,11 @@ export class UserCase {
     public async getAll(): Promise<UserI[] | null> {
 
         const data: string[] | null = await this.repository.getAll();
-        const users: UserI[] = [];
 
         if (data != null) {
-            for (const userStr of data) {
-                users.push(JSON.parse(userStr))
-            }
-            return users;
+            return data.map(value => {
+                return JSON.parse(value);
+            });
         }
 
         return data;
