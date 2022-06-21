@@ -65,4 +65,12 @@ export class UserCase {
         return;
     }
 
+    @logger(__filename)
+    public async delete(userToUpdate: UserI) {
+
+        const data: any = await this.repository.lRem(userToUpdate);
+        console.log(data);
+        return;
+    }    
+
 }
