@@ -14,37 +14,27 @@ export class UserCase {
 
     @logger()
     public async getAll(): Promise<UserI[] | null> {
-        try {
 
-            const data: string[] | null = await this.repository.getAll();
-            const users: UserI[] = [];
+        const data: string[] | null = await this.repository.getAll();
+        const users: UserI[] = [];
 
-            if (data != null) {
-                for (const userStr of data) {
-                    users.push(JSON.parse(userStr))
-                }
-                return users;
+        if (data != null) {
+            for (const userStr of data) {
+                users.push(JSON.parse(userStr))
             }
-
-            return data;
-
-        } catch (error) {
-            console.log(error);
-            return null;
+            return users;
         }
+
+        return data;
     }
 
     @logger()
     public async set(user: UserI) {
-        try {
-            this.addDates(user);
-            this.addId(user);
-            const data: any = await this.repository.set(user);
-            console.log(data);
-        } catch (error) {
-            console.log(error);
 
-        }
+        this.addDates(user);
+        this.addId(user);
+        const data: any = await this.repository.set(user);
+        console.log(data);
     }
 
     private addDates(object: any) {

@@ -14,7 +14,7 @@ async function start() {
 
     await DataManager.getUser().set(user);
     const users = await DataManager.getUser().getAll();
-    console.log(users);
+    // console.log(users);
 
     await dataManager.disconnect();
 }

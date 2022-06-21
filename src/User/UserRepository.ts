@@ -1,4 +1,5 @@
 import { RedisClientType } from "redis";
+import { logger, repositoryError } from "../shared/decorators";
 import { UserI } from "./UserI";
 
 export class UserRepository {
@@ -9,14 +10,16 @@ export class UserRepository {
         this.client = client;
     }
 
-
+    @logger()
+    @repositoryError()
     public async getAll(): Promise<string[] | null> {
-
         const data: string[] | null = await this.client.lRange(`users`, 0, -1);
         return data;
     }
 
-    public async set(user: UserI):  Promise<number | null>  {
+    @logger()
+    @repositoryError()
+    public async set(user: UserI): Promise<number | null> {
         const data: number = await this.client.rPush(`users`, JSON.stringify(user));
         return data;
     }
