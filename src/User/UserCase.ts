@@ -1,8 +1,7 @@
 import { RedisClientType } from "redis";
 import { UserI } from "./UserI";
-import { v4 as uuidv4 } from 'uuid';
 import { UserRepository } from "./UserRepository";
-import { logger } from "../shared/decorators";
+import { logger, set } from "../shared/decorators";
 
 export class UserCase {
 
@@ -28,23 +27,12 @@ export class UserCase {
         return data;
     }
 
+    @set()
     @logger(__filename)
     public async set(user: UserI) {
 
-        this.addDates(user);
-        this.addId(user);
         const data: any = await this.repository.set(user);
         console.log(data);
-    }
-
-    private addDates(object: any) {
-        const date = new Date();
-        object.createdAt = date;
-        object.updatedAt = date;
-    }
-
-    private addId(object: any) {
-        object.id = uuidv4();
     }
 
 }
