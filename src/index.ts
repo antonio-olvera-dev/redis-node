@@ -12,7 +12,7 @@ async function start() {
         password: "1234"
     }
 
-    await DataManager.getUser().set(user);
+    const set = await DataManager.getUser().set(user);
     const users = await DataManager.getUser().getAll();
     
     const length = users?.length ? users.length : 0;

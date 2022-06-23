@@ -1,7 +1,7 @@
 import { RedisClientType } from "redis";
 import { UserI } from "./UserI";
 import { UserRepository } from "./UserRepository";
-import { logger, set, update } from "../shared/decorators";
+import { logger, remove, set, update } from "../shared/decorators";
 
 export class UserCase {
 
@@ -27,15 +27,15 @@ export class UserCase {
 
     @set()
     @logger(__filename)
-    public async set(user: UserI) {
+    public async set(user: UserI): Promise<number | null> {
 
-        const data: any = await this.repository.set(user);
-        console.log(data);
+        const data: number | null = await this.repository.set(user);
+        return data;
     }
 
     @update()
     @logger(__filename)
-    public async updateById(userToUpdate: UserI) {
+    public async updateById(userToUpdate: UserI): Promise<string | null> {
 
         const allUser: UserI[] | null = await this.getAll();
 
@@ -50,27 +50,28 @@ export class UserCase {
                     break;
                 }
             }
-            const data: any = await this.repository.lSet(userToUpdate, index);
-            console.log(data);
-            return;
+            const data: string | null = await this.repository.lSet(userToUpdate, index);
+
+            return data;
         }
+
+        return null;
     }
 
     @update()
     @logger(__filename)
-    public async updateByIndex(userToUpdate: UserI, index: number) {
+    public async updateByIndex(userToUpdate: UserI, index: number): Promise<string | null> {
 
-        const data: any = await this.repository.lSet(userToUpdate, index);
-        console.log(data);
-        return;
+        const data: string | null = await this.repository.lSet(userToUpdate, index);
+        return data;
     }
 
+    @remove()
     @logger(__filename)
-    public async delete(userToUpdate: UserI) {
+    public async delete(userToUpdate: UserI): Promise<number | null> {
 
-        const data: any = await this.repository.lRem(userToUpdate);
-        console.log(data);
-        return;
-    }    
+        const data: number | null = await this.repository.lRem(userToUpdate);
+        return data;
+    }
 
 }

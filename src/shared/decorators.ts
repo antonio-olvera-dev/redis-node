@@ -43,7 +43,12 @@ export function set() {
 
             addDates(arguments[0]);
             addId(arguments[0]);
-            return await method.apply(this, arguments);
+            const numberOfElements: number | null = await method.apply(this, arguments)
+
+            const message: string = numberOfElements != null ? `ok` : `error`;
+            console.log(`--- Set ${message} --> ${numberOfElements} ---`);
+
+            return numberOfElements;
         };
     };
 
@@ -67,7 +72,13 @@ export function update() {
         descriptor.value = async function () {
 
             addDates(arguments[0]);
-            return await method.apply(this, arguments);
+            const result: string | null = await method.apply(this, arguments);
+
+            const message: string = result != null ? `ok` : `error`;
+            console.log(`--- Update ${message} --> ${result} ---`);
+
+            return result;
+
         };
     };
 
@@ -75,4 +86,22 @@ export function update() {
         const date = new Date();
         object.updatedAt = date;
     }
+}
+
+export function remove() {
+
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+
+        const method = descriptor.value!;
+        descriptor.value = async function () {
+
+
+            const numberOfElementsDeleted: number | null = await method.apply(this, arguments)
+
+            const message: string = numberOfElementsDeleted != null ? `ok` : `error`;
+            console.log(`--- Remove ${message} --> ${numberOfElementsDeleted} ---`);
+
+            return numberOfElementsDeleted;
+        };
+    };
 }
